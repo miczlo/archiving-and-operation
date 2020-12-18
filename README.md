@@ -20,7 +20,7 @@ Archiving, Visualizing and Operation Panel demo application for Industrial Edge
 ## Description
 ### Overview
 
-The Industrial Edge Application "Archiving & Operation" is based on the "[Archiving](https://github.com/industrial-edge/)" Application and extends it with an Operation Panel to control the filling process. With this Application you get a control panel for starting, stopping and reseting the filling process. 
+The Industrial Edge Application "Archiving & Operation" is based on the "[Archiving & Visualization](https://github.com/industrial-edge/archiving-and-visualization)" Application and extends it with an Operation Panel to control the filling process. With this Application you get a control panel for starting, stopping and reseting the filling process. 
 
 ![overview](docs/graphics/overview.jpg)
 
