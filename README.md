@@ -7,7 +7,8 @@ Archiving, Visualizing and Operation Panel demo application for Industrial Edge
     - [Overview](#overview)
     - [General Task](#general-task)
   - [Requirements](#requirements)
-    - [Components](#components)
+    - [Used Components](#used-components)
+    - [TIA Project](#tia-project)
     - [Helpful tools](#helpful-tools)
   - [Installation](#installation)
   - [Usage](#usage)
@@ -60,10 +61,8 @@ The used TIA Portal project can be found in the [miscellenous repository](https:
 You can find the further information about the following steps in the [docs](docs/installation.md)
 
 - [Build application](docs/installation.md#build-application)
-- [Upload application to Industrial Edge Management](docs/installation.md#upload-application-to-industrial-edge-management-iem)
+- [Upload application to Industrial Edge Management](docs/installation.md#upload-application-to-industrial-edge-management)
 - [Configure and install application to Industrial Edge Device](docs/installation.md#install-application-on-industrial-edge-device)
-
-
 
 ## Usage
 

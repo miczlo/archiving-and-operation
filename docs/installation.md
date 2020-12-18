@@ -1,21 +1,21 @@
 # Installation
 
 - [Installation](#installation)
-  * [Build Application](#build-application)
-    + [Download Repository](#download-repository)
-    + [Build docker graphics](#build-docker-graphics)
-  * [Upload Application to Industrial Edge Management](#upload-application-to-industrial-edge-management)
-    + [Connect your Industrial Edge App Publisher](#connect-your-industrial-edge-app-publisher)
-    + [Create new Application in Industrial Edge Management](#create-new-application-in-industrial-edge-management)
-    + [Configure IE Databus and SIMATIC S7 Connector](#configure-ie-databus-and-simatic-s7-connector)
-    + [Add Edge App configuration & upload configuration file to Industrial Edge Management](#add-edge-app-configuration---upload-configuration-file-to-industrial-edge-management)
-        * [API Security](#api-security)
-        * [MQTT](#mqtt)
-        * [InfluxDB](#influxdb)
-  * [Install Application on Industrial Edge Device](#install-application-on-industrial-edge-device)
-    + [Edge App configuration](#edge-app-configuration)
-    + [Install Edge App](#install-edge-app)
-    + [Configure Grafana](#configure-grafana)
+  - [Build Application](#build-application)
+    - [Download Repository](#download-repository)
+    - [Build docker graphics](#build-docker-graphics)
+  - [Upload Application to Industrial Edge Management](#upload-application-to-industrial-edge-management)
+    - [Connect your Industrial Edge App Publisher](#connect-your-industrial-edge-app-publisher)
+    - [Create new Application in Industrial Edge Management](#create-new-application-in-industrial-edge-management)
+    - [Configure IE Databus and SIMATIC S7 Connector](#configure-ie-databus-and-simatic-s7-connector)
+    - [Add Edge App configuration & upload configuration file to Industrial Edge Management](#add-edge-app-configuration--upload-configuration-file-to-industrial-edge-management)
+        - [API Security](#api-security)
+        - [MQTT](#mqtt)
+        - [InfluxDB](#influxdb)
+  - [Install Application on Industrial Edge Device](#install-application-on-industrial-edge-device)
+    - [Edge App configuration](#edge-app-configuration)
+    - [Install Edge App](#install-edge-app)
+    - [Configure Grafana](#configure-grafana)
 
 
 
@@ -97,7 +97,7 @@ For more detailed information please see the section for [uploading apps to the 
 ![iedatabus](graphics/iedatabus.gif)
 
 2. Add the PLC as a data source with data source type e.g. OPC-UA. Name of Datasource needs to 
-3. Add variables to collect data as described in Archiving How To [docs](https://code.siemens.com/industrial-edge-sup/how-to-s/grafana-dashboard-demo).
+3. Add variables to collect data as described in Archiving & Visualization How To [docs](https://github.com/industrial-edge/archiving-and-visualization/README.md#prerequisite).
 4. Add Variables wit Access mode "read & write"
   ```txt
   Start 
