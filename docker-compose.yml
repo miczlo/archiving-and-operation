@@ -36,7 +36,7 @@ services:
       - data-storage:/var/lib/influxdb
     networks:
       - app-net
-    mem_limit: 100mb
+    mem_limit: 250mb
     logging:
       driver: "json-file"
       options:
