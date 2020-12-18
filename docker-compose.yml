@@ -1,0 +1,81 @@
+version: '2.4'
+#### Services ####
+services:
+
+  #### MQTT-Service ####
+  mqtt-service:
+    build:
+      context: ./src/mqtt-service
+    image: mqtt-service:0.0.1
+    restart: always
+    depends_on: 
+      - grafana
+      - influxdb
+    networks:
+      - proxy-redirect
+      - app-net
+    ports:
+      - "30400:3000"
+    volumes:
+      - './publish/:/publish/'
+      - './cfg-data/:/cfg-data/'
+    mem_limit: 100mb
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  #### Database InfluxDB ####
+  influxdb:
+    build:
+      context: ./src/influxdb
+    image: database_influxdb:1.8.1-alpine
+    restart: always
+    volumes: 
+      - data-storage:/var/lib/influxdb
+    networks:
+      - app-net
+    mem_limit: 100mb
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+    
+
+  #### Dashboard and Operation Grafana ####
+  grafana:
+    build:
+      context: ./src/grafana
+    image: dashboard_grafana:7.1.3
+    restart: always
+    depends_on: 
+      - influxdb
+    volumes: 
+      - dashboard-storage:/var/lib/grafana
+    networks:
+      - app-net
+    ports:
+      - "30300:3000"
+    mem_limit: 100mb
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+#### Volumes ####
+volumes: 
+  data-storage:
+    name: data-storage
+  dashboard-storage:
+    name: dashboard-storage
+
+#### Network ####
+networks:
+  proxy-redirect:
+    external: true
+    name: proxy-redirect 
+  app-net:
+    name: app-net
