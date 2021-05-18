@@ -1,5 +1,5 @@
 /*
- Copyright 2020 Siemens AG
+ Copyright 2021 Siemens AG
 This file is subject to the terms and conditions of the MIT License.  
 See LICENSE file in the top-level directory.
 */
@@ -13,80 +13,51 @@ const fs = require('fs')
 /*#################################
     Define Variables
 #################################*/
-let MQTT
-let API_SECURITY
-
-const defaultConfiguration = {
-    "API_SECURITY": {
-        "USERNAME": "admin",
-        "PASSWORD": "changeMe1!"
-    },
-    "MQTT": {
-        "SERVER_IP": "ie-databus",
-        "DEFAULT_TOPIC_NAME": "ie/d/j/simatic/v1/s7c1/dp/",
-        "DATA_SOURCE_NAME": "Tank",
-        "VAR_ID_START": "GDB_appSignals_APP_Start",
-        "VAR_ID_STOP": "GDB_appSignals_APP_Stop",
-        "VAR_ID_RESET": "GDB_appSignals_APP_Reset",
-        "USER": "edge",
-        "PASSWORD": "edge"
-    },
-    "INFLUXDB": {
-        "INFLUXDB_IP": "influxdb",
-        "INFLUXDB_DATABASE": "databus_values"
-    }
-}
+const configuration = require('./config/config-default.json')
 
 /*#################################
     Init Programm using Configuration file
 #################################*/
-if (fs.existsSync('/cfg-data/config_mqtt-service.json')) {
-    console.log("Configuration file exists => read configuration file")
-    // Read Configuration File 
-    const fileContent = JSON.parse(fs.readFileSync('/cfg-data/config_mqtt-service.json', 'utf8') )
-    API_SECURITY = fileContent.API_SECURITY
-    MQTT = fileContent.MQTT
-    INFLUXDB = fileContent.INFLUXDB
-    // Check if configuration file has the right structure
-    if (MQTT != null && API_SECURITY != null) {
-        console.log('ServerIP: ' + MQTT.SERVER_IP)
-        if (!(MQTT.SERVER_IP
-            && MQTT.DEFAULT_TOPIC_NAME
-            && MQTT.DATA_SOURCE_NAME
-            && MQTT.VAR_ID_START
-            && MQTT.VAR_ID_STOP
-            && MQTT.VAR_ID_RESET
-            && MQTT.USER
-            && MQTT.PASSWORD
-            && API_SECURITY.USERNAME
-            && API_SECURITY.PASSWORD
-            && INFLUXDB.INFLUXDB_IP
-            && INFLUXDB.INFLUXDB_DATABASE)) {
-            console.log("Invalid configuration file => use default configuration");
-            API_SECURITY = defaultConfiguration.API_SECURITY
-            MQTT = defaultConfiguration.MQTT
-            INFLUXDB = defaultConfiguration.INFLUXDB
-        } else {
-            console.log("Valid configuration file");
-        }
-    } else {
-        console.log("Invalid configuration file => use default configuration");
-        API_SECURITY = defaultConfiguration.API_SECURITY
-        MQTT = defaultConfiguration.MQTT
-        INFLUXDB = defaultConfiguration.INFLUXDB
+if (fs.existsSync('/cfg-data/config.json')) {
+    console.log("Global: Configuration file exists => read configuration file")
+    const configJson = JSON.parse(fs.readFileSync('/cfg-data/config.json', 'utf8') )
+    console.log("Global: Configuration file: " + JSON.stringify(configJson))
+
+    if (configJson.API_SECURITY !== undefined) {
+        configuration.API_SECURITY.USERNAME = configJson.API_SECURITY.USERNAME || configuration.API_SECURITY.USERNAME
+        configuration.API_SECURITY.PASSWORD = configJson.API_SECURITY.PASSWORD || configuration.API_SECURITY.PASSWORD
     }
+
+    if (configJson.MQTT !== undefined) {
+        configuration.MQTT.HOST = configJson.MQTT.HOST || configuration.MQTT.HOST
+        configuration.MQTT.PORT = Number(configJson.MQTT.PORT || configuration.MQTT.PORT)
+        configuration.MQTT.USERNAME = configJson.MQTT.USERNAME || configuration.MQTT.USERNAME
+        configuration.MQTT.PASSWORD = configJson.MQTT.PASSWORD || configuration.MQTT.PASSWORD
+        configuration.MQTT.DATA_SOURCE_NAME = configJson.MQTT.DATA_SOURCE_NAME || configuration.MQTT.DATA_SOURCE_NAME
+        configuration.MQTT.TAG_NAME_START = configJson.MQTT.TAG_NAME_START || configuration.MQTT.TAG_NAME_START
+        configuration.MQTT.TAG_NAME_STOP = configJson.MQTT.TAG_NAME_STOP || configuration.MQTT.TAG_NAME_STOP
+        configuration.MQTT.TAG_NAME_RESET = configJson.MQTT.TAG_NAME_RESET || configuration.MQTT.TAG_NAME_RESET
+    }
+
+    if (configJson.INFLUXDB !== undefined) {
+        configuration.INFLUXDB.HOST = configJson.INFLUXDB.HOST || configuration.INFLUXDB.HOST
+        configuration.INFLUXDB.PORT = Number(configuration.INFLUXDB.PORT)
+        configuration.INFLUXDB.DATABASE = configJson.INFLUXDB.DATABASE || configuration.INFLUXDB.DATABASE
+    }
+    configuration.SERVER.PORT = Number(configuration.SERVER.PORT)
+    
 } else {
-    console.log("No configuration file provided => use default configuration");
-    API_SECURITY = defaultConfiguration.API_SECURITY
-    MQTT = defaultConfiguration.MQTT
-    INFLUXDB = defaultConfiguration.INFLUXDB
+    console.log("Global: No configuration file provided => use default configuration");
 }
+
+console.log("Global: App Configuration" + JSON.stringify(configuration))
 
 /*#################################
     Export Variables
 #################################*/
 module.exports = {
-    "MQTT": MQTT,
-    "API_SECURITY": API_SECURITY,
-    "INFLUXDB": INFLUXDB
+    "MQTT": configuration.MQTT,
+    "API_SECURITY": configuration.API_SECURITY,
+    "INFLUXDB": configuration.INFLUXDB,
+    "SERVER": configuration.SERVER
 }
