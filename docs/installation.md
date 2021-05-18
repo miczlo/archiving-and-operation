@@ -3,7 +3,7 @@
 - [Installation](#installation)
   - [Build Application](#build-application)
     - [Download Repository](#download-repository)
-    - [Build docker graphics](#build-docker-graphics)
+    - [Build docker images](#build-docker-images)
   - [Upload Application to Industrial Edge Management](#upload-application-to-industrial-edge-management)
     - [Connect your Industrial Edge App Publisher](#connect-your-industrial-edge-app-publisher)
     - [Create new Application in Industrial Edge Management](#create-new-application-in-industrial-edge-management)
@@ -12,8 +12,15 @@
         - [API Security](#api-security)
         - [MQTT](#mqtt)
         - [InfluxDB](#influxdb)
+        - [Server](#server)
   - [Install Application on Industrial Edge Device](#install-application-on-industrial-edge-device)
     - [Edge App configuration](#edge-app-configuration)
+      - [IE Databus](#ie-databus)
+        - [User](#user)
+      - [S7 Connector](#s7-connector)
+        - [Tag Names](#tag-names)
+      - [InfluxDB](#influxdb-1)
+      - [API](#api)
     - [Install Edge App](#install-edge-app)
     - [Configure Grafana](#configure-grafana)
 
@@ -24,13 +31,13 @@
 ### Download Repository
 Download or clone the repository source code to your workstation.
 
-### Build docker graphics
+### Build docker images
 
 Open terminal in the project root path where docker-compose.yml is located and execute: 
 ```bash
 docker-compose build
 ```
-This command builds the docker graphics of the services which are specified in the docker-compose.yml file.
+This command builds the docker images of the services which are specified in the docker-compose.yml file.
 ![create-app](graphics/buildapp.gif)
  
 
@@ -94,7 +101,7 @@ For more detailed information please see the section for [uploading apps to the 
    Topic: ie/# 
    Permission: Publish and Subscribe
    ```
-![iedatabus](graphics/iedatabus.gif)
+![iedatabus](graphics/iedatabus.png)
 
 2. Add the PLC as a data source with data source type e.g. OPC-UA. Name of Datasource needs to 
 3. Add variables to collect data as described in Archiving & Visualization How To [docs](https://github.com/industrial-edge/archiving-and-visualization/README.md#prerequisite).
@@ -112,13 +119,13 @@ For more detailed information please see the section for [uploading apps to the 
   ```
 ![s7connector](graphics/simatic-s7-connector.png)
 
-4. Enter Databus credentials and enable Bulk Publish <br>
+1. Enter Databus credentials <br>
 
 <a href="graphics/simatic-s7-connector-bulk.png"><img src="graphics/simatic-s7-connector-bulk.png" height="50%" width="50%" ></a>
 <br>
 
 ### Add Edge App configuration & upload configuration file to Industrial Edge Management
-The MQTT Service can be configured with a configuration file. The file is located in "src/mqtt-service/config-file". If no configuration file during app installation is provided, the application uses the default values seen in the following json-file.
+The MQTT Service can be configured with a form. The form is based on JSONForms. If no configuration is provided during app installation, the application uses default values seen in the following json-file.
 ```json
 {
     "API_SECURITY": {
@@ -126,65 +133,97 @@ The MQTT Service can be configured with a configuration file. The file is locate
         "PASSWORD": "changeMe1!"
     },
     "MQTT": {
-        "SERVER_IP": "ie-databus",
+        "HOST": "ie-databus",
+        "PORT": "1883",
+        "USERNAME": "edge",
+        "PASSWORD": "edge",
         "DEFAULT_TOPIC_NAME": "ie/d/j/simatic/v1/s7c1/dp/",
+        "DEFAULT_METADATA_TOPIC_NAME": "ie/m/j/simatic/v1/s7c1/dp",
         "DATA_SOURCE_NAME": "Tank",
-        "VAR_ID_START": "GDB_appSignals_APP_Start",
-        "VAR_ID_STOP": "GDB_appSignals_APP_Stop",
-        "VAR_ID_RESET": "GDB_appSignals_APP_Reset",
-        "USER": "edge",
-        "PASSWORD": "edge"
+        "TAG_NAME_START": "GDB_appSignals_APP_Start",
+        "TAG_NAME_STOP": "GDB_appSignals_APP_Stop",
+        "TAG_NAME_RESET": "GDB_appSignals_APP_Reset"
     },
     "INFLUXDB": {
-        "INFLUXDB_IP": "influxdb",
-        "INFLUXDB_DATABASE": "databus_values"
+        "HOST": "influxdb",
+        "PORT": "8086",
+        "USERNAME": "root",
+        "PASSWORD": "root",
+        "MEASUREMENT": "edge",
+        "DATABASE": "databus_values"
+    },
+    "SERVER": {
+        "PORT": "3000"
     }
 }
 ```
-
-> :warning: Do not rename this file
-
-1. Modify configuration file for the mqtt service (mqtt-service/config-file/config_mqtt-service.json)
-If you don't use the default values the file has to be modified. 
-
-![editconfigfile](graphics/editconfigfile.gif)
-
 
 ##### API Security
 Set your own username and password. These credentials are later needed when configuring the operations-panel in Grafana.
 - USERNAME: The username is needed to authenticate at the MQTT API 
 - PASSWORD: The password is needed to authenticate at the MQTT API (change recommended)
 ##### MQTT
-- SERVER_IP: This is the service name of the IE Databus (don't change)
-- DEFAULT_TOPIC_NAME: This is the default topic root path where to publish messages on the IE Databus to write data to a PLC (don't change)
-- DATA_SOURCE_NAME: The data source Name is configured in the SIMATIC S7 Connector Configurator. Insert here the data source Name for your PLC-Connection
-- VAR_ID_START, VAR_ID_STOP, VAR_ID_RESET: The variable IDs are the names of the PLC-Tags (Datablock GDP > Variable appSignals > APP_Start, APP_Stop APP_Reset) which are configured in the data source of the SIMATIC S7 Connector Configurator.
+- HOST: This is the service name of the IE Databus
+- PORT: This is the port of the IE Databus
 - USER, PASSWORD: The user and password are configured in the IE Databus and used in the SIMATIC S7 Connector for accessing (publish, subscribe) to topics on the IE Databus
+- DEFAULT_TOPIC_NAME: This is the default topic root path for data of the SIMATIC S7 Connector
+- DEFAULT_METADATA_TOPIC_NAME: This is the default topic root path for metadata of the SIMATIC S7 Connector
+- DATA_SOURCE_NAME The data source Name is configured in the SIMATIC S7 Connector Configurator. Insert here the data source Name for your PLC-Connection
+- TAG_NAME_START, TAG_NAME_STOP, TAG_NAME_RESET The variable Names are the names of the PLC-Tags (Datablock GDP > Variable appSignals > APP_Start, APP_Stop APP_Reset) which are configured in the data source of the SIMATIC S7 Connector Configurator.
+
 ##### InfluxDB
 - INFLUXDB_IP: Service name of InfluxDB which is specified in docker-compose. Do not change unless you are trying to connect to a different instance of influxdb. Grafana adds a datasource from type InfluxDB and connects to same InfluxDB instance using the same service name.
 - INFLUXDB_DATABASE: InfluxDB can have multible database running in the same instance. Data which are collected from databus are written to that database. Grafana adds as datasource the InfluxDB and specifies this database as data input.
 
-1. Select your application in Industrial Edge Management
-2. Add Configuration to application and upload edited configuration file
+##### Server
+- PORT: Server Port which NodeJS server is using
+
+1. Select your application in Industrial Edge App Publisher
+   
+![edge-app-configuration](graphics/configuration1.png)
+
+2. Add Configuration to application
    ```txt
-   Display Name: mqtt-config
-   Description: mqtt.config
+   Display Name: Configuration
+   Description: JSONForms Configuration
    Host Path: ./cfg-data/
    Add Template 
-   - Name: mqtt-config-template
-   - Description: mqtt-config-template
+   - Name: JSONForms
+   - Description: JSONForms Configuration
+   - JSON Schema: set checkbox
    ```
 
-![edge-app-configuration](graphics/addconfiguration.gif)
+![edge-app-configuration](graphics/configuration2.png)
 
 ## Install Application on Industrial Edge Device
 
 ### Edge App configuration
-Modify and select Edge app configuration accordingly.
+Fill out Input-Form and select checkbox (check box green)
+
+![edge-app-configuration](graphics/configuration3.png)
+#### IE Databus
+- MQTT Broker IP: optional
+- PORT: optional
+##### User
+- Usernname: required
+- Password: required
+#### S7 Connector
+- Data Source Name: required
+##### Tag Names
+- Start: required
+- Stop: required
+- Reset: required
+#### InfluxDB
+- InfluxDB IP: optional
+- Database Name: optional
+#### API
+- Username: required
+- Passord: required
+
 
 ### Install Edge App
 Install Edge Application to Industrial Edge Device and select app configuration
-![Install Application](graphics/installapp.gif)
+![Install Application](graphics/install.png)
 
 ---
 
