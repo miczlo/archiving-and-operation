@@ -141,7 +141,7 @@
                     },
                     "PASSWORD": {
                         "type": "string",
-                        "minLength": 3
+                        "minLength": 4
                     }
                 }
             },
@@ -163,10 +163,12 @@
                         "type": "string"
                     },
                     "USERNAME": {
-                        "type": "string"
+                        "type": "string",
+                        "minLength": 4
                     },
                     "PASSWORD": {
-                        "type": "string"
+                        "type": "string",
+                        "minLength": 3
                     },
                     "DATA_SOURCE_NAME": {
                         "type": "string"
