@@ -1,0 +1,70 @@
+{
+    "type": "object",
+    "properties": {
+      "API_SECURITY": {
+        "type": "object",
+        "required": [
+          "USERNAME",
+          "PASSWORD"
+        ],
+        "properties": {
+          "USERNAME": {
+            "type": "string",
+            "minLength": 4
+          },
+          "PASSWORD": {
+            "type": "string",
+            "minLength": 3
+          }
+        }
+      },
+      "MQTT": {
+        "type": "object",
+        "required": [
+          "USERNAME",
+          "PASSWORD",
+          "DATA_SOURCE_NAME",
+          "TAG_NAME_START",
+          "TAG_NAME_STOP",
+          "TAG_NAME_RESET"
+        ],
+        "properties": {
+          "HOST": {
+            "type": "string"
+          },
+          "PORT": {
+            "type": "string"
+          },
+          "USERNAME": {
+            "type": "string"
+          },
+          "PASSWORD": {
+            "type": "string"
+          },
+          "DATA_SOURCE_NAME": {
+            "type": "string"
+          },
+          "TAG_NAME_START": {
+            "type": "string"
+          },
+          "TAG_NAME_STOP": {
+            "type": "string"
+          },
+          "TAG_NAME_RESET": {
+            "type": "string"
+          }
+        }
+      },
+      "INFLUXDB": {
+        "type": "object",
+        "properties": {
+          "HOST": {
+            "type": "string"
+          },
+          "DATABASE": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
