@@ -42,7 +42,7 @@ You can find the further information about the application [here](docs/overview.
   - S7 Connector V1.2.26
   - S7 Connector Configurator 1.2.32
   - IE Databus V1.2.16
-  - IE Databus Configurator V1.1.24
+  - IE Databus Configurator V1.2.29
 - Industrial Edge Device (IED) V1.2.0-56
 - TIA Portal V16 
 - PLC: CPU 1512 FW 2.8.3
