@@ -147,6 +147,10 @@
             },
             "MQTT": {
                 "type": "object",
+                "default": {
+                    "HOST": "ie-databus",
+                    "PORT": "1883"
+                },
                 "required": [
                     "USERNAME",
                     "PASSWORD",
@@ -186,6 +190,10 @@
             },
             "INFLUXDB": {
                 "type": "object",
+                "default": {
+                    "HOST": "influxdb",
+                    "DATABASE": "databus_values"
+                },
                 "properties": {
                     "HOST": {
                         "type": "string"
