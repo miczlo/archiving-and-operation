@@ -51,7 +51,7 @@ You can find the further information about the application [here](docs/overview.
 
 The used TIA Portal project can be found in the [miscellenous repository](https://github.com/industrial-edge/miscellenous under the following name and is also used for several further application examples:
 
-- [tia-tank-application-20201028.7z](https://github.com/industrial-edge/miscellenous/blob/main/tia-tank-application-20210421.7z)
+- [tia-tank-application.7z](https://github.com/industrial-edge/miscellaneous/blob/main/tank%20application/tia-tank-application.7z)
 
 ### Helpful tools
 - Any development environment (e.g. Visual Studio Code, Eclipse, …)
