@@ -35,17 +35,17 @@ You can find the further information about the application [here](docs/overview.
 ### Used Components
 
 - OS: Windows or Linux
-- Docker minimum V18.09
+- Docker V20.10.06
 - Docker Compose V2.0 – V2.4
-- Industrial Edge App Publisher (IEAP) V1.1.14
-- Industrial Edge Management (IEM) V1.1.11
-  - S7 Connector V1.1.11
-  - S7 Connector Configurator 1.1.14
-  - IE Databus V1.1.10
+- Industrial Edge App Publisher (IEAP) V1.2.9
+- Industrial Edge Management (IEM) V1.2.14
+  - S7 Connector V1.2.26
+  - S7 Connector Configurator 1.2.32
+  - IE Databus V1.2.16
   - IE Databus Configurator V1.1.24
-- Industrial Edge Device (IED) V1.1.0-44
+- Industrial Edge Device (IED) V1.2.0-56
 - TIA Portal V16 
-- PLC: CPU 1511 FW 2.8.3
+- PLC: CPU 1512 FW 2.8.3
 
 ### TIA Project
 
