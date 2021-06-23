@@ -127,6 +127,10 @@
     },
     "dataschema": {
         "type": "object",
+        "required": [
+            "API_SECURITY",
+            "MQTT"
+        ],
         "properties": {
             "API_SECURITY": {
                 "type": "object",
