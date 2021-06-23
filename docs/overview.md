@@ -1,6 +1,6 @@
 # Application overview
 
-The Industrial Edge Application "Archiving & Operation" is based on the "Archiving" Application and extends it with an Operation Panel to control the filling process. 
+The Industrial Edge Application "Archiving & Operation" is based on the "Archiving" Application and extends it with an Operation Panel to control the filling process.
 
 - [Application overview](#application-overview)
   - [General Task](#general-task)
@@ -8,7 +8,6 @@ The Industrial Edge Application "Archiving & Operation" is based on the "Archivi
   - [MQTT Service](#mqtt-service)
   - [InfluxDB Service](#influxdb-service)
   - [Grafana Service](#grafana-service)
-
 
 ## General Task
 

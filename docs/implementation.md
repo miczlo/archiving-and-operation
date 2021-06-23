@@ -27,6 +27,7 @@ volumes:
 ```
 
 ### Default app configuration
+
 ```js
 const defaultConfiguration = {
     "API_SECURITY": {
@@ -51,6 +52,7 @@ const defaultConfiguration = {
 ```
 
 ### Read configuration file
+
 ```js
 const fileContent = JSON.parse(fs.readFileSync('/cfg-data/config_mqtt-service.json', 'utf8') )
 ```
@@ -58,6 +60,7 @@ const fileContent = JSON.parse(fs.readFileSync('/cfg-data/config_mqtt-service.js
 ## Connect to IE Databus
 
 ### MQTT-Client options
+
 ```js
 const options = {
     'clientId': 'mqttjs_' + Math.random().toString(16).substr(2, 8),
@@ -68,11 +71,13 @@ const options = {
 ```
 
 ### Connect MQTT-Client to IE Databus
+
 ```js
 const mqttClient = mqtt.connect('mqtt://' + MQTT.SERVER_IP, options);
 ```
 
 ### Subscribe to Topics on IE Databus
+
 ```js
 mqttClient.on('connect', () => {
     mqttClient.subscribe(mqttSubTopic, (err) => {
@@ -84,11 +89,13 @@ mqttClient.on('connect', () => {
 ```
 
 ### Publish to Topic on IE Databus
+
 ```js
 mqttClient.publish(mqttPubTopic, msg);
 ```
 
 ### On Message
+
 ```js
 mqttClient.on('message', (topic, message) => {
     //do something
@@ -98,6 +105,7 @@ mqttClient.on('message', (topic, message) => {
 ## API with NodeJs and Express
 
 ### Http Get-Request Endpoint
+
 ```js
 app.get('/start', checkAuth, (req, res) => {
     //do something
@@ -107,6 +115,7 @@ app.get('/start', checkAuth, (req, res) => {
 
 
 ### Start Webserver
+
 ```js
 app.listen(port, () => {
     console.log(`App listening at http://localhost:${port}`)
