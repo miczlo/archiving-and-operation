@@ -109,7 +109,7 @@ For more detailed information please see the section for [uploading apps to the 
 ![iedatabus](graphics/iedatabus.png)
 
 2. Add the PLC as a data source with data source type e.g. OPC-UA. Name of data source needs to
-3. Add variables to collect data as described in Archiving & Visualization How To [docs](https://github.com/industrial-edge/archiving-and-visualization/README.md#prerequisite).
+3. Add variables to collect data as described in Archiving & Visualization How To [docs](https://github.com/industrial-edge/archiving-and-visualization/#prerequisite).
 4. Add Variables wit Access mode "read & write"
   
   ```txt
