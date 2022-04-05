@@ -54,6 +54,7 @@ client.on('message', function (topic, message) {
                 {
                     measurement: METADATA.ID_NAME_MAP.get(element.id),
                     fields: { value: Number(element.val) },
+                    timestamp: new Date(element.ts)
                 }
             ]).catch(error => {
                 console.error(`Data-Collector: Error saving data to InfluxDB! ${error.stack}`)

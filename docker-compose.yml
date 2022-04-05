@@ -6,7 +6,7 @@ services:
   mqtt-service:
     build:
       context: ./src/mqtt-service
-    image: mqtt-service:0.2.0
+    image: mqtt-service:0.3.0
     restart: always
     depends_on: 
       - grafana
