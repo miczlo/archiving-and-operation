@@ -49,17 +49,32 @@ client.on('message', function (topic, message) {
     // write msg to influx
     if (topic === mqttDataTopic) {
         var jsonmsg = JSON.parse(msg);
-        jsonmsg.vals.forEach(element => {
-            influx.writePoints([
-                {
-                    measurement: METADATA.ID_NAME_MAP.get(element.id),
-                    fields: { value: Number(element.val) },
-                    timestamp: new Date(element.ts)
-                }
-            ]).catch(error => {
-                console.error(`Data-Collector: Error saving data to InfluxDB! ${error.stack}`)
+        if (jsonmsg.vals != undefined) {
+            jsonmsg.vals.forEach(element => {
+                influx.writePoints([
+                    {
+                        measurement: METADATA.ID_NAME_MAP.get(element.id),
+                        fields: { value: Number(element.val) },
+                        timestamp: new Date(element.ts)
+                    }
+                ]).catch(error => {
+                    console.error(`Data-Collector: Error saving data to InfluxDB! ${error.stack}`)
+                })
             })
-        })
+        } else {
+            let writePoints = []
+            jsonmsg.records.forEach(element => {
+                let timestamp = new Date(element.ts)
+                element.vals.forEach(elm => {
+                    writePoints.push({
+                        measurement: METADATA.ID_NAME_MAP.get(elm.id),
+                        fields: { value: Number(elm.val) },
+                        timestamp: timestamp
+                    })
+                })
+            })
+            influx.writePoints(writePoints)
+        }
     }
 });
 
